@@ -64,6 +64,8 @@ class MascotaController extends Controller
             $image = $request->file('foto');
             $image_name = $image->getClientOriginalName();
             $path = $request->file('foto')->storeAs($destination_path, $image_name);
+
+            $input['foto'] = $image_name;
         }
         // if ($request->file('foto')){
         //     $path = Storage::putFile('public/foto', $request->file('foto'));
@@ -95,9 +97,10 @@ class MascotaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(mascotas $mascotas)
+    public function edit($id)
     {
-        //
+        $mascotas = mascotas::find($id);
+        return view('Edit.mascotaEdit',['']);
     }
 
     /**

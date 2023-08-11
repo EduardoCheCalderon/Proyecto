@@ -1,6 +1,6 @@
 @extends('layout/template')
 
-@section('title', 'Mascotas')
+@section('title', 'Editar Mascota')
 
 @section('header')
     
@@ -21,7 +21,8 @@
     <a class="btn btn-success mb-5" target="_blank" href="{{url('pdf_mascota')}}">Reporte</a>
 </div>
 
-<form action="{{url('/Mascotas')}}" method="POST">
+<form action="{{url('Mascotas/' .$mascota->id ) }}" method="POST">
+    @method("PUT")
     @csrf
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

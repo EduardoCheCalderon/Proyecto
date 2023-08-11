@@ -3,7 +3,12 @@
 @section('title', 'Mascotas')
 
 @section('header')
-    
+    <style type="text/css">
+        .img-thumbnail{
+            width: auto; 
+            height: 64px;
+        }
+    </style>
 @endsection
 
 @section('Navbar')
@@ -122,10 +127,10 @@
                             <td class="text-center"> {{$mascota->fecha_nacimiento}} </td>
                             <td class="text-center"> {{$mascota->observaciones}} </td>
                             <td class="text-center"> 
-                                <img src="{{asset('storage/'.$mascota->foto);}} " alt="">
-                                <img src="{{ url('storage/images/'.$mascota->foto) }}" alt="" title="" />
-
-                                {{$mascota->foto}}
+                                
+                                @if($mascota->foto)
+                                <img class="img-thumbnail" src="{{asset('storage/images/mascotas/'.$mascota->foto);}} " alt="">
+                                @endif
                             </td>
                             <td class="text-center">
                                 <a href="{{ url('mascotas'.$mascota->id.'/Mascota_edit') }}" class="btn btn-small btn-warning"><i class="bi bi-pen-fill"></i></a>
