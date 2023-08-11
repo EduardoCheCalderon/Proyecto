@@ -1,0 +1,68 @@
+.background-radial-gradient {
+    background-color: #db7f16;
+    background-image: radial-gradient(650px circle at 0% 0%,
+        #FDEEDC 15%,
+        #FFD8A9 35%,
+        #F1A661 75%,
+        #E38B29 80%,
+    transparent 100%),
+    radial-gradient(1250px circle at 100% 100%,
+        #FDEEDC 15%,
+        #FFD8A9 35%,
+        #F1A661 75%,
+        #E38B29 80%,
+    transparent 100%);
+}
+
+#radius-shape-1 {
+    height: 220px;
+    width: 220px;
+    top: -60px;
+    left: -130px;
+    background: radial-gradient(#FFE4A7, #F4E0B9);
+    overflow: hidden;
+}
+
+#radius-shape-2 {
+    border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+    bottom: -60px;
+    right: -110px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(#FFE4A7, #F4E0B9);
+    overflow: hidden;
+}
+
+.bg-glass {
+    background-color: hsla(0, 0%, 100%, 0.9) !important;
+    backdrop-filter: saturate(200%) blur(25px);
+}
+
+.btn-primary {
+    background-color: #e38b29;
+    border-color: #e38b29;
+    display: flex;
+}
+
+.btn-primary:hover {
+    background-color: #da7400;
+    border-color: #da7400;
+}
+
+.titulo {
+    -webkit-text-stroke: 0.5px white;
+    color: transparent;
+    text-shadow: 4px 4px 20px #2e2e2e73;
+}
+
+p {
+    font-family: 'Nunito', sans-serif;
+}
+
+input {
+    font-family: 'Nunito', sans-serif;
+}
+
+label {
+    font-family: 'Nunito', sans-serif;
+}
