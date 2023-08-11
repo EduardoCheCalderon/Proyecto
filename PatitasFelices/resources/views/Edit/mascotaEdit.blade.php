@@ -35,57 +35,53 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="formGroupExampleInput" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre de su mascota" value="{{old ('nombre')}}" required>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre de su mascota" value="{{'$mascota->nombre')}}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="especie" class="form-label">Especie</label>
                     <div class="col-sm-5">
-                        <select name="especie" id="especie" class="form-select" required>
-                            <option value="0">Seleccione la especie</option>
-                            {{-- {{ dd($clientes) }} --}}
+                        <select name="especie" id="especie" class="form-select" value="{{'$mascota->especie')}}" required>
+                            <option value="">Seleccione la especie</option>
                         @foreach ($especies as $especie)
-                            <option value="{{$especie->id}}">{{$especie->nombre}}</option> 
+                            <option value="{{ $especie->id }} @if ($especie->id == $mascota->id_especie) {{'selected'}} @endif {{ $especie->id }}">{{$especie->nombre}}</option> 
                         @endforeach
                         </select>
-                        {{-- <select name="especie" id="especie" class="form-select" required>
-                            <option value="">Seleccione la especie de su mascota</option>
-                        </select> --}}
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="raza" class="form-label">Raza</label>
                     <div class="col-sm-5">
-                        <select name="raza" id="raza" class="form-select" required>
-                            <option value="">Seleccione la raza de su mascota</option>
+                        <select name="raza" id="raza" class="form-select" value="{{'$mascota->raza')}}" required>
+                            <option value="{{ $especie->id }} @if ($raza->id == $mascota->id_raza) {{'selected'}} @endif ">Seleccione la raza de su mascota</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="formGroupExampleInput" class="form-label">Edad</label>
-                    <input type="number" class="form-control" id="edad" name="edad" placeholder="Ingrese la edad de la mascota" value="{{old ('edad')}}" required>
+                    <input type="number" class="form-control" id="edad" name="edad" placeholder="Ingrese la edad de la mascota" value="{{'$mascota->edad')}}" required>
                 </div>
 
                 <div class="mb-3">
                     <label for="formGroupExampleInput" class="form-label">Fecha de Nacimiento</label>
-                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Ingrese la fecha de nacimiento de su mascota" value="{{old ('fecha')}}" >
+                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Ingrese la fecha de nacimiento de su mascota" value="{{'$mascota->fecha_nacimiento')}}" >
                 </div>
 
                 <div class="mb-3">
                     <label for="formGroupExampleInput" class="form-label">Observaciones</label>
-                    <input type="text" class="form-control" id="observaciones" name="observaciones" placeholder="observaciones sobre la mascota" value="{{old ('observaciones')}}" >
+                    <input type="text" class="form-control" id="observaciones" name="observaciones" placeholder="observaciones sobre la mascota" value="{{'$mascota->observaciones')}}" >
                 </div>
 
                 <div class="mb-3">
                     <label for="formGroupExampleInput" class="form-label">Imagen</label>
-                    <input type="photo" class="form-control" id="foto" name="foto" placeholder="Foto de la mascota" value="{{old ('foto')}}" >
+                    <input type="file" class="form-control" id="foto" name="foto" accept="image/*" placeholder="Foto de la mascota" value="{{'$mascota->foto')}}" >
                 </div>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Agregar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
         </div>
         </div>
@@ -109,12 +105,12 @@
                         <th scope="col">Foto</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
-                      </tr>
+                    </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
-                        @foreach($mascotas as $mascota)
+                    @foreach($mascotas as $mascota)
+                        <tr>
                             <td class="text-center"> {{$mascota->id}} </td>
                             <td class="text-center"> {{$mascota->nombre}} </td>
                             <td class="text-center"> {{$mascota->id_especie}} </td>
@@ -122,9 +118,15 @@
                             <td class="text-center"> {{$mascota->edad}} </td>
                             <td class="text-center"> {{$mascota->fecha_nacimiento}} </td>
                             <td class="text-center"> {{$mascota->observaciones}} </td>
-                            <td class="text-center"> {{$mascota->foto}} </td>
-                            <td class="text-center"><a href="" class="btn btn-small btn-warning"><i class="bi bi-pen-fill"></i></a></td>
-
+                            <td class="text-center"> 
+                                
+                                @if($mascota->foto)
+                                <img class="img-thumbnail" src="{{asset('storage/images/mascotas/'.$mascota->foto);}} " alt="">
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ url('mascotas'.$mascota->id.'/Mascota_edit') }}" class="btn btn-small btn-warning"><i class="bi bi-pen-fill"></i></a>
+                            </td>
                             <td>
                                 <form action="{{url('Mascotas' .$mascota->id)}}" method="POST"> 
                                     <button class="btn btn small btn-danger" onclick="deleteConf(event)"><i class="bi bi-trash-fill"></i></button>
@@ -132,13 +134,9 @@
                                    @csrf
                                </form>
                             </td>
-                        @endforeach
-                    </tr>
+                        </tr>
+                    @endforeach
                 </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 <script type="text/javascript">
     var selectorEspecie = document.getElementById('especie');

@@ -11,15 +11,16 @@
 @endsection
 
 @section('Contenido')
-<div style="text-align: center">
-    <h1>Agendar Cita</h1>
-    <!-- Button trigger modal -->
-  
-    <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Agregar
-    </button>
-    <a class="btn btn-success mb-5" target="_blank" href="{{url('pdf_cita')}}">Reporte</a>
-</div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="section-title position-relative text-center mb-5">Registrar Mascota</h1>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Agregar
+            </button>
+        </div>
+    </div>
+
     <form action="{{url('Citas')}}" method="POST">
         @csrf
         <!-- Modal -->
@@ -35,7 +36,7 @@
                         <label for="mascota" class="form-label">Mascota</label>
                         <div class="col-sm-5">
                             <select name="mascota" id="mascota" class="form-select" required>
-                                <option value="0">Mascotas</option>
+                                <option value="0">--Seleccionar--</option>
                             @foreach ($mascotas as $mascota)
                                 <option value="{{$mascota->id}}">{{$mascota->nombre}}</option> 
                             @endforeach
@@ -47,7 +48,7 @@
                         <label for="servicio" class="form-label">Servicio</label>
                         <div class="col-sm-5">
                             <select name="servicio" id="servicio" class="form-select" required>
-                                <option value="0">Seleccione su servicio</option>
+                                <option value="0">Selecciones su servicio</option>
                             @foreach ($servicios as $servicio)
                                 <option value="{{$servicio->id}}">{{$servicio->nombre}}</option> 
                             @endforeach
@@ -74,7 +75,7 @@
 
                     <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">Hora</label>
-                        <input type="time" class="form-control" id="hora" name="hora" placeholder="Seleccione una hora para la cita" value="{{old ('hora')}}" >
+                        <input type="yime" class="form-control" id="hora" name="hora" placeholder="Seleccione una hora para la cita" value="{{old ('hora')}}" >
                     </div>
 
                     <div class="mb-3">
@@ -83,8 +84,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Agregar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Regresar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
             </div>
             </div>
@@ -111,17 +112,20 @@
                     </thead>
                     
                     <tbody>
-                        @foreach($citas as $cita)
-                            <tr>
+                        <tr>
+                            @foreach($citas as $cita)
                                 <td class="text-center"> {{$cita->id}} </td>
                                 <td class="text-center"> {{$cita->id_mascota}} </td>
-                                <td class="text-center"> {{$cita->id_servicios}} </td>
-                                <td class="text-center"> {{$cita}} </td>
+                                <td class="text-center"> {{$cita->id_servicio}} </td>
+                                <td class="text-center"> {{$cita->id_herramienta}} </td>
                                 <td class="text-center"> {{$cita->fecha}} </td>
                                 <td class="text-center"> {{$cita->hora}} </td>
                                 <td class="text-center"> {{$cita->edad}} </td>
                                 <td class="text-center"> {{$cita->comentarios}} </td>
-                                <td class="text-center"><a href="" class="btn btn-small btn-warning"><i class="bi bi-pen-fill"></i></a></td>
+                                
+                                <td class="text-center">
+                                    <a href="{{ url('mascotas'.$mascota->id.'Edit.citaEdit') }}" class="btn btn-small btn-warning"><i class="bi bi-pen-fill"></i></a>
+                                </td>
 
                                 <td>
                                     <form action="{{url('Citas' .$cita->id)}}" method="POST"> 
@@ -130,8 +134,8 @@
                                     @csrf
                                 </form>
                                 </td>
-                            </tr>
-                        @endforeach
+                            @endforeach
+                        </tr>
                     </tbody>
                 </table>
             </div>

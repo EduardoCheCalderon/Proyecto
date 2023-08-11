@@ -7,6 +7,7 @@ use App\Models\herramientas;
 use App\Models\mascotas;
 use App\Models\servicios;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CitaController extends Controller
 {
@@ -15,12 +16,27 @@ class CitaController extends Controller
      */
     public function index()
     {
-        return view('Formulario/Cita',[
-            'cita' => cita::all(),
-            'mascotas' => mascotas::all(),
-            'servicios' => servicios::all(),
-            'herramientas' => herramientas::all()
+
+        $citas = cita::all();
+        $mascotas = mascotas::all();
+        $servicios = servicios::all();
+        $herramientas = herramientas::all();
+
+        return view('Formulario.Cita',[
+            'citas' => $citas,
+            'mascotas' => $mascotas,
+            'servicios' => $servicios,
+            'herramientas' => $herramientas
         ]);
+    }
+
+    public function Pdf()
+    {
+        $citas = cita::all();
+        
+        $Pdf = App::make('dompdf.wrapper');
+        $Pdf->loadView('Formulario.pdf_cita', ['citas' => $citas]);
+        return $Pdf->stream();
     }
 
     /**
@@ -28,7 +44,7 @@ class CitaController extends Controller
      */
     public function create()
     {
-        //
+        return view('Formulario.Cita');
     }
 
     /**
@@ -45,14 +61,17 @@ class CitaController extends Controller
             'comentarios' => 'nullable'
         ]);
 
-        $cita = new cita();
-        $cita -> id_mascota = $request -> input('mascota');
-        $cita -> fecha = $request -> input('fecha');
-        $cita -> hora = $request -> input('hora');
-        $cita -> comentarios = $request -> input('comentarios');
-        $cita -> save();
+        $citas = new cita();
+        $citas -> id_mascota = $request -> input('mascota');
+        $citas -> id_servicio = $request -> input('servicios');
+        $citas -> id_herramienta = $request -> input('herramientas');
+        $citas -> fecha = $request -> input('fecha');
+        $citas -> hora = $request -> input('hora');
+        $citas -> comentarios = $request -> input('comentarios');
 
-        return redirect('Formulario.Cita');
+        $citas -> saveOrFail();
+
+        return redirect()->action([CitaController::class, 'index']);
     }
 
     /**
@@ -66,24 +85,51 @@ class CitaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(cita $cita)
+    public function edit($id)
     {
-        //
+        $cita = cita::find($id);
+        return view('Edit.citaEdit',[
+            'cita' => $cita,
+            'mascotas' => mascotas::all(),
+            'servicios' => servicios::all(),
+            'herramientas' => herramientas::all(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, cita $cita)
+    public function update(Request $request, $id)
     {
-        //
+        $request -> validate([
+            'mascota'=>'required',
+            'servicios' => 'required',
+            'herramientas' => 'required',
+            'fecha' => 'required',
+            'hora' => 'required',
+            'comentarios' => 'nullable'
+        ]);
+
+        $citas =  cita::find($id);
+        $citas -> id_mascota = $request -> input('mascota');
+        $citas -> fecha = $request -> input('fecha');
+        $citas -> hora = $request -> input('hora');
+        $citas -> comentarios = $request -> input('comentarios');
+
+        $citas -> saveOrFail();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(cita $cita)
+    public function destroy(string $id)
     {
-        //
+        {
+            $cita=cita::find($id);
+            
+            $cita->delete(); 
+    
+            return redirect('Cita');
+        }
     }
 }

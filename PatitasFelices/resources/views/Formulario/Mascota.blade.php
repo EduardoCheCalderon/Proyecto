@@ -127,13 +127,12 @@
                             <td class="text-center"> {{$mascota->fecha_nacimiento}} </td>
                             <td class="text-center"> {{$mascota->observaciones}} </td>
                             <td class="text-center"> 
-                                
                                 @if($mascota->foto)
                                 <img class="img-thumbnail" src="{{asset('storage/images/mascotas/'.$mascota->foto);}} " alt="">
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{ url('mascotas'.$mascota->id.'/Mascota_edit') }}" class="btn btn-small btn-warning"><i class="bi bi-pen-fill"></i></a>
+                                <a href="{{ url('mascotas'.$mascota->id.'/Edit.mascotaEdit') }}" class="btn btn-small btn-warning"><i class="bi bi-pen-fill"></i></a>
                             </td>
                             <td>
                                 <form action="{{url('Mascotas' .$mascota->id)}}" method="POST"> 

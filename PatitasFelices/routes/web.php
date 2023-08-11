@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CitaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\MascotaController;
 use App\Http\Controllers\RazasController;
@@ -37,20 +38,12 @@ Route::put('Mascotas/{id}',[MascotaController::class,'update']);
 Route::post('Mascota',[MascotaController::class,'store']);
 Route::delete('Mascotas{id}',[MascotaController::class,'destroy']);
 
-/* Clientes */
-
-Route::get('Cliente',[ClienteController::class,'index']);
-Route::get('Cliente/{id}/Edit.clienteEdit',[ClienteController::class, 'edit']);
-Route::put('Cliente/{id}',[ClienteController::class,'update']);
-Route::post('Cliente',[ClienteController::class,'store']);
-Route::delete('Cliente{id}',[ClienteController::class,'destroy']);
-
 /* Citas */
-Route::get('Mascotas',[MascotaController::class,'index']);
-Route::get('Mascotas/{id}/editViews.mascotaEdit',[MascotaController::class, 'edit']);
-Route::put('Mascotas/{id}',[MascotaController::class,'update']);
-Route::post('Mascotas',[MascotaController::class,'store']);
-Route::delete('Mascotas{id}',[MascotaController::class,'destroy']);
+Route::get('Citas',[CitaController::class,'index']);
+Route::get('Citas/{id}/Edit.CitaEdit',[CitaController::class, 'edit']);
+Route::put('Citas/{id}',[CitaController::class,'update']);
+Route::post('Citas',[CitaController::class,'store']);
+Route::delete('Citas{id}',[CitaController::class,'destroy']);
 
 /* Razas */
 Route::get('razas/{id}',[RazasController::class, 'index']);

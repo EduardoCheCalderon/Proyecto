@@ -9,6 +9,7 @@ use App\Models\razas;
 use App\Models\mascotas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Svg\Tag\Path;
 
 class MascotaController extends Controller
 {
@@ -65,7 +66,8 @@ class MascotaController extends Controller
             $image_name = $image->getClientOriginalName();
             $path = $request->file('foto')->storeAs($destination_path, $image_name);
 
-            $input['foto'] = $image_name;
+            // $input['foto'] = $image_name;
+            $path = $image_name;
         }
         // if ($request->file('foto')){
         //     $path = Storage::putFile('public/foto', $request->file('foto'));
@@ -79,7 +81,7 @@ class MascotaController extends Controller
         $mascotas -> edad = $request -> input('edad');
         $mascotas -> fecha_nacimiento = $request -> input('fecha_nacimiento');
         $mascotas -> observaciones = $request -> input('observaciones');
-        $mascotas -> foto = $path;
+        $mascotas -> foto= $path;
 
         $mascotas -> saveOrFail();
         
@@ -100,15 +102,55 @@ class MascotaController extends Controller
     public function edit($id)
     {
         $mascotas = mascotas::find($id);
-        return view('Edit.mascotaEdit',['']);
+        return view('Edit.mascotaEdit', [
+            'mascotas' => $mascotas,
+            'especies' =>especies::all(), 
+            'razas' => razas::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, mascotas $mascotas)
+    public function update(Request $request, $id)
     {
-        //
+        $request -> validate([
+            'nombre'=>'required|max:25',
+            'especie'=>'required',
+            'raza'=>'required',
+            'edad'=>'required',
+            'fecha_nacimiento'=>'nullable',
+            'observaciones'=>'nullable|max:255',
+            'foto'=>'nullable'
+        ]);
+        
+        $path = '';
+        
+        if ($request->hasFile('foto'))
+        {
+            $destination_path = 'public/images/mascotas';
+            $image = $request->file('foto');
+            $image_name = $image->getClientOriginalName();
+            $path = $request->file('foto')->storeAs($destination_path, $image_name);
+
+            // $input['foto'] = $image_name;
+            $path = $image_name;
+        }
+        // if ($request->file('foto')){
+        //     $path = Storage::putFile('public/foto', $request->file('foto'));
+            
+        // }
+        
+        $mascotas = mascotas::find($id);
+        $mascotas -> nombre = $request -> input('nombre');
+        $mascotas -> id_especie = $request -> input('especie');
+        $mascotas -> id_raza = $request -> input('raza');
+        $mascotas -> edad = $request -> input('edad');
+        $mascotas -> fecha_nacimiento = $request -> input('fecha_nacimiento');
+        $mascotas -> observaciones = $request -> input('observaciones');
+        $mascotas -> foto= $path;
+
+        $mascotas -> saveOrFail();
     }
 
     /**
