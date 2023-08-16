@@ -102,11 +102,7 @@ class MascotaController extends Controller
     public function edit($id)
     {
         $mascotas = mascotas::find($id);
-        return view('Edit.mascotaEdit', [
-            'mascotas' => $mascotas,
-            'especies' =>especies::all(), 
-            'razas' => razas::all()
-        ]);
+        return view('Edit.mascotasEdit', ['mascotas' => $mascotas, 'especies' => especies::all(), 'razas' =>razas::all()]);
     }
 
     /**
@@ -118,7 +114,7 @@ class MascotaController extends Controller
             'nombre'=>'required|max:25',
             'especie'=>'required',
             'raza'=>'required',
-            'edad'=>'required',
+            'edad'=>'required | numeric',
             'fecha_nacimiento'=>'nullable',
             'observaciones'=>'nullable|max:255',
             'foto'=>'nullable'
@@ -151,6 +147,8 @@ class MascotaController extends Controller
         $mascotas -> foto= $path;
 
         $mascotas -> saveOrFail();
+
+        return redirect()->action([MascotaController::class, 'index']);
     }
 
     /**

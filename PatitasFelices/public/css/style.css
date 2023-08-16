@@ -232,3 +232,8 @@ a {
   height: 200px;
   width: auto;
 }
+
+
+th {
+  text-align: center;
+}

@@ -98,11 +98,11 @@
 
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Registrar') }}
-                                    </button>
+                                    <button type="submit" class="btn btn-primary">{{('Registrar')}}</button>
                                 </div>
                             </div>
+                            <br>
+                            <p class="message mx-auto text-center">Ya tienes una cuenta? <a href="login">Ingresar cuenta</a></p>
                         </form>
                     </div>
                 </div>

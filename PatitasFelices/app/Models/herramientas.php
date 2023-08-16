@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class herramientas extends Model
 {
     public function servicios(){
-        return $this->belongsTo(servicios::class, 'id_servicio', 'id');
+        return $this->belongsTo(servicios::class, 'id_servicio');
     }
 }

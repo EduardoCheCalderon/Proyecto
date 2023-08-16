@@ -9,10 +9,10 @@ class cita_servicio extends Model
 {
     use HasFactory;
     public function cita(){
-        return $this->belongsTo(cita::class, 'id_cita', 'id');
+        return $this->belongsTo(cita::class, 'id_cita');
     }
 
     public function servicios(){
-        return $this->belongsTo(servicios::class, 'id_servicio', 'id');
+        return $this->belongsTo(servicios::class, 'id_servicio');
     }
 }
